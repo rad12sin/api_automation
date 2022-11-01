@@ -10,7 +10,7 @@ import java.time.Instant;
 
 public class GenerateManagementToken {
 
-    private void generateManagementToken() {
+    private String generateManagementToken() {
         Map<String, Object> payload = new HashMap<>();
         payload.put("access_key", "635fd0c54208780bf667307a");
         payload.put("type", "management");
@@ -21,6 +21,7 @@ public class GenerateManagementToken {
                 .setNotBefore(new Date(System.currentTimeMillis()))
                 .signWith(SignatureAlgorithm.HS256, "qbIP8GgfJBjgwwkMpk_FuXhZkOsvWCnISfIjI6yh3YNxH1eEwtZbD83f3Iduv3jo_j3YVyPB8PY0IUvvJH9isMZP-lXuFU-7F3XvYj1Wzba5Sy56-31GIepnuLdsWOFIrOtTwhPcHGwsfkLfhtBlgdjRQ4eSKpJ_aPT6N2ej_Iw=".getBytes()).compact();
         System.out.println("token= "+ token);
+        return token;
     }
 
     public static void main(String[] args) {

@@ -1,45 +1,12 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
-<suite name="Api Automation" parallel="tests" thread-count="1">
-	<!-- suite name="API Automation" parallel="tests" -->
+<suite name="MojAdsService" preserve-order="true">
 
-   <listeners>
-        <listener class-name="listener.CustomReport"/>
-    </listeners>
+	<test name="API automation">
+		<classes>
+			<class name="src.com.o4s.test.apiTest.StartRecordingTest"/>
+			<class name="src.com.o4s.test.apiTest.StopRecordingTest"/>
+			<class name="src.com.o4s.test.apiTest.StartAndStopFlowTest"/>
 
-	<test name="Heros Get Api"
-		allow-return-values="true">
-		<classes>
-			<class
-				name="apiTest.HerosGetApiTest" />
 		</classes>
-	</test>
-	<test name="Get Hero details api"
-		  allow-return-values="true">
-		<classes>
-			<class
-					name="apiTest.GetHeroDetailsGetApiTest" />
-		</classes>
-	</test>
-	<test name="Add hero Post Api test"
-		  allow-return-values="true">
-		<classes>
-			<class
-					name="apiTest.AddHeroForFightPostApiTest" />
-		</classes>
-	</test>
-	<test name="Delete the fight"
-		  allow-return-values="true">
-		<classes>
-			<class
-					name="apiTest.DeleteFightDeleteApiTest" />
-		</classes>
-	</test>
-	<test name="Fight between Heros"
-		  allow-return-values="true">
-		<classes>
-			<class
-					name="apiTest.HerosFightPostApiTest" />
-		</classes>
-	</test>
-
-</suite>
+	</test> <!-- Test -->
+</suite> <!-- Suite -->

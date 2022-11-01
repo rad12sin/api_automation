@@ -64,9 +64,9 @@ public class Setup extends constants.ApiUrlConstants {
     }
 
     @AfterSuite(alwaysRun = true)
-    public void afterSuite(ITestContext context) {
+    public void afterSuite(ITestContext context) throws InterruptedException {
         extentTestFactory.flushReport();
-        // new SendFileEmail();
+        new SendFileEmail();
     }
 
     public enum RequestType {
@@ -150,6 +150,11 @@ public class Setup extends constants.ApiUrlConstants {
                         +" and actual is "+ response.getTimeIn(TimeUnit.MILLISECONDS), ExtentColor.BROWN));
             if(!response.getContentType().contains("html"))
                 loggerReport.info("Response - "+response.asString());
+            if(response.getStatusCode()==401 && response.asString().contains("token is expired by")){
+                //generate token again and set it for future
+                System.out.println("Token is expired, Please generate again while running class GenerateManagementToken and set it in APIUrlConstants file and re-execute the suite");
+                System.exit(0);
+            }
             validateResult(expectedStatusCode, response.statusCode(), "Status Code Validation");
         }
 

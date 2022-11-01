@@ -13,5 +13,6 @@ Notes to install the Api automation framework. Please follow below steps for run
 11. Run the ApiAutomationTestNgSuite.xml file.
 12. If you are getting the error like package or file not found then make the all directory as source root in intelliJ while using Project->Right Click->Mark Directory-> Source Root.
 13. You can check the result in console as well as in CustomReports-> CustomReport.html. 
-14. If you want to send the this report in email the run the java file listener->SendEmail.java.
+14. If you want to send the this report in email the run the java class SendEmail.java.
+
 
