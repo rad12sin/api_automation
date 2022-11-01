@@ -1,4 +1,4 @@
-package setUp;
+package src.com.o4s.services.setUp;
 
 import com.aventstack.extentreports.ExtentTest;
 import com.aventstack.extentreports.markuputils.ExtentColor;
@@ -11,6 +11,7 @@ import org.testng.ITestContext;
 import org.testng.ITestResult;
 import org.testng.annotations.*;
 import src.commonServices.utils.ExtentTestFactory;
+import src.commonServices.utils.SendFileEmail;
 
 import java.lang.reflect.Method;
 import java.util.Map;
@@ -18,20 +19,23 @@ import java.util.concurrent.TimeUnit;
 
 import static io.restassured.RestAssured.config;
 
+
 public class Setup extends constants.ApiUrlConstants {
 
     int expectedMaxAPITimeTaken=2000; //time in milli seconds
-    int reTryCount=3;
+    int reTryCount=1;
     Response response;
     public static ITestContext ctx;
     public static ExtentTest loggerReport;
     public static String sourceMethod;
     public static String testCaseName = "";
     public static String sourceClass;
+
+    SendFileEmail sendFileEmail;
     static ExtentTestFactory extentTestFactory=new ExtentTestFactory();
 
     @BeforeClass(alwaysRun = true)
-    public void generateToken() {
+    public void loadExtentFile() {
         extentTestFactory.loadExtentFile();
     }
 
@@ -40,6 +44,7 @@ public class Setup extends constants.ApiUrlConstants {
     public void init(Method method, Object[] details, ITestContext ctx) {
         this.ctx=ctx;
         this.sourceMethod=method.getName();
+        sourceClass=getClass().getName().substring(getClass().getName().lastIndexOf('.') + 1);
         @SuppressWarnings("unchecked")
         Map<String, String> map[] = (Map<String, String>[]) details[0];
         if (map[0].containsKey("Test case")) {
@@ -61,6 +66,7 @@ public class Setup extends constants.ApiUrlConstants {
     @AfterSuite(alwaysRun = true)
     public void afterSuite(ITestContext context) {
         extentTestFactory.flushReport();
+        // new SendFileEmail();
     }
 
     public enum RequestType {
@@ -72,7 +78,7 @@ public class Setup extends constants.ApiUrlConstants {
                                           final String requestBody,final Map<String, String> pathParam, final Map<String, String> queryParam, final int expectedStatusCode) {
 
         RequestSpecification spec = RestAssured.given().config(config);
-
+        loggerReport.info("API URL -> "+ requestURL);
         if(headerMap!=null){
             loggerReport.info("Headers - "+headerMap);
             spec.headers(headerMap);
@@ -147,7 +153,6 @@ public class Setup extends constants.ApiUrlConstants {
             validateResult(expectedStatusCode, response.statusCode(), "Status Code Validation");
         }
 
-        //restBaseLogger.info("-------------------------------------------------------------------------------------------------------------------------");
 
         return response;
     }

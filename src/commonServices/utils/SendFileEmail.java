@@ -1,5 +1,7 @@
-package listener;
+package src.commonServices.utils;
 // Java program to send email
+
+import src.commonServices.utils.ExtentTestFactory;
 
 import javax.activation.DataHandler;
 import javax.activation.DataSource;
@@ -12,30 +14,48 @@ import javax.mail.internet.MimeMultipart;
 import java.util.Properties;
 import java.time.LocalDate;
 
-class SendFileEmail
+public class SendFileEmail
 {
-    public static void main(String[] args)
+    public SendFileEmail()
     {
         // email ID of Recipient.
         String recipient = "radhakrishna059@gmail.com";
-        //String[] recipient = new String[2];
-
-
-        // email ID of Sender.
+//        //String[] recipient = new String[2];
+//
+//
+//        // email ID of Sender.
         String sender = "radhakrishna.iet@gmail.com";
+//
+//        // using host as localhost
+//        String host = "gmail-smtp-in.l.google.com";
+//
+//        // Getting system properties
+//        Properties properties = System.getProperties();
+//
+//        // Setting up mail server
+//        properties.setProperty("mail.smtp.host", host);
+//
+//        // creating session object to get properties
+//        Session session = Session.getDefaultInstance(properties);
 
-        // using host as localhost
-        String host = "gmail-smtp-in.l.google.com";
+        Properties props = new Properties();
+        props.put("mail.smtp.host", "smtp.gmail.com");
+        props.put("mail.smtp.socketFactory.port", "465");
+        props.put("mail.smtp.socketFactory.class","javax.net.ssl.SSLSocketFactory");
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.port", "465");
 
-        // Getting system properties
-        Properties properties = System.getProperties();
+        Session session = Session.getDefaultInstance(props,
 
-        // Setting up mail server
-        properties.setProperty("mail.smtp.host", host);
+                new javax.mail.Authenticator() {
 
-        // creating session object to get properties
-        Session session = Session.getDefaultInstance(properties);
+                    protected PasswordAuthentication getPasswordAuthentication() {
 
+                        return new PasswordAuthentication(sender, "Welcome@12345");
+
+                    }
+
+                });
         System.out.println("Sending the mail...");
 
         try
@@ -44,11 +64,14 @@ class SendFileEmail
             MimeMessage message = new MimeMessage(session);
 
             // Set From Field: adding senders email to from field.
+//            message.setFrom(new InternetAddress(sender));
+//
+//            // Set To Field: adding recipient's email to from field.
+//            message.addRecipient(Message.RecipientType.TO, new InternetAddress(recipient));
+
             message.setFrom(new InternetAddress(sender));
 
-            // Set To Field: adding recipient's email to from field.
-            message.addRecipient(Message.RecipientType.TO, new InternetAddress(recipient));
-
+            message.setRecipients(Message.RecipientType.TO,InternetAddress.parse(recipient));
             // Set Subject: subject of the email
             message.setSubject("Api automation Report");
 
@@ -60,7 +83,7 @@ class SendFileEmail
 
             // Add file as attachment in gmail
             Multipart multipart = new MimeMultipart();
-            String filename = "E:\\workspace\\CustomReports\\CustomReport.html";
+            String filename = ExtentTestFactory.filePath;
             DataSource source = new FileDataSource(filename);
             messageBodyPart.setDataHandler(new DataHandler(source));
             messageBodyPart.setFileName(filename);

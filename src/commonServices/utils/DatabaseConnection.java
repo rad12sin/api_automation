@@ -18,7 +18,7 @@ public class DatabaseConnection {
     public Statement getDatabaseConnection(){
         Properties prop=new Properties();
         FileInputStream fis= null;
-        String databaseUrl= ApiUrlConstants.databaseUrl;
+        String databaseUrl= "mySql:1.0.0.0";
         try {
             fis = new FileInputStream(new File(databaseUrl));
             prop.load(fis);
