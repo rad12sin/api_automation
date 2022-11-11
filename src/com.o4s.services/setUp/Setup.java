@@ -30,16 +30,11 @@ public class Setup extends constants.ApiUrlConstants {
     public static String sourceMethod;
     public static String testCaseName = "";
     public static String sourceClass;
-
-    SendFileEmail sendFileEmail;
     static ExtentTestFactory extentTestFactory=new ExtentTestFactory();
-
-    @BeforeClass(alwaysRun = true)
+    @BeforeSuite(alwaysRun = true)
     public void loadExtentFile() {
         extentTestFactory.loadExtentFile();
     }
-
-
     @BeforeMethod(alwaysRun = true)
     public void init(Method method, Object[] details, ITestContext ctx) {
         this.ctx=ctx;
